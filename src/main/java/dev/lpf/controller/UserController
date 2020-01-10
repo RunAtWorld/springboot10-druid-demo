@@ -1,0 +1,47 @@
+package dev.lpf.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import dev.lpf.entity.User;
+import dev.lpf.mapper.UserRepos;
+
+/**
+ * UserController
+ *
+ */
+
+@RestController
+@RequestMapping("user")
+public class UserController {
+
+    @Autowired
+    private UserRepos userRepos;
+
+    @RequestMapping(value="saveUser")
+    public User saveUser(){
+        return userRepos.save(new User());
+    }
+
+    @RequestMapping(value="findByUserName",method = RequestMethod.GET)
+    public List<User> findByUserName(@RequestParam("name")String userName){
+        return userRepos.findByUserName(userName);
+    }
+
+    @RequestMapping(value="findByUserNameLike",method = RequestMethod.GET)
+    public List<User> findByUserNameLike(@RequestParam("name") String userName){
+        return userRepos.findByUserNameLike(userName);
+    }
+
+    @GetMapping(value = "all")
+    public List<User> getAll(){
+        return userRepos.findAll();
+    }
+
+}
